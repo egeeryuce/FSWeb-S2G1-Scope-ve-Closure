@@ -43,6 +43,9 @@ function skorArtirici() {
    return skor++;
   }
 }
+// 0'dan skoru başlatır, skoru 1 artırır ve yeni skoru döndürür
+//closure kullanıyor
+//closure kullanıldığından skor değişkeni dışarıdan erişilemez
 
 const skor1 = skorArtirici();
 
@@ -53,6 +56,8 @@ function skor2() {
   return skor++;
 }
 
+// 0'dan skoru başlatır, skoru 1 artırır ve yeni skoru döndürür
+//closure kullanmıyor
 
 /* Görev 2: takimSkoru() 
 Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
@@ -64,11 +69,12 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(skor){
+    let yeniSkor = Math.floor(Math.random() * 16) + 10;
+    return yeniSkor;
 }
 
-
+console.log(takimSkoru());
 
 
 /* Görev 3: macSonucu() 
@@ -86,13 +92,28 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(takimSkoru, ceyrekSayisi){
+  let EvSahibi = 0;
+  let KonukTakim = 0;
+  for(let i = 0; i < ceyrekSayisi; i++){
+    EvSahibi += takimSkoru();
+    KonukTakim += takimSkoru();
+  }
+  return {
+    EvSahibi,
+    KonukTakim
+  }
 }
 
+/*
+function takimSkoru(skor){
+    let yeniSkor = Math.floor(Math.random() * 16) + 10;
+    return yeniSkor;
+}
 
-
-
+console.log(takimSkoru());
+*/
+console.log (macSonucu(takimSkoru, 4));
 
 
 /* Zorlayıcı Görev 4: periyotSkoru()
@@ -109,9 +130,11 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-
+function periyotSkoru(takimSkoru) {
+  return {
+    EvSahibi: takimSkoru(),
+    KonukTakim: takimSkoru()
+  }
 }
 
 
@@ -146,8 +169,22 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkoru, takimSkoru, ceyrekSayisi) {
+  let EvSahibi = 0;
+  let KonukTakim = 0;
+  let sonuc = [];
+  for(let i = 0; i < ceyrekSayisi; i++){
+    EvSahibi += takimSkoru();
+    KonukTakim += takimSkoru();
+    sonuc.push(`${i+1}. Periyot: Ev Sahibi ${EvSahibi} - Konuk Takım ${KonukTakim}`);
+  }
+  if(EvSahibi === KonukTakim){
+    EvSahibi += takimSkoru();
+    KonukTakim += takimSkoru();
+    sonuc.push(`1. Uzatma: Ev Sahibi ${EvSahibi} - Konuk Takım ${KonukTakim}`);
+  }
+  sonuc.push(`Maç Sonucu: Ev Sahibi ${EvSahibi} - Konuk Takım ${KonukTakim}`);
+  return sonuc;
 }
 
 
